@@ -22,7 +22,8 @@ def expand_search_terms(search_terms: str) -> List[str]:
     prompt = """
         Input: search_terms
         Output:: Provide the search terms in a JSON format, with the keys being the numbers 1 to 10 and the values being the corresponding search terms.
-          Ensure that the search terms are closely related to the initial input but vary in their phrasing and word choice to capture a wide range of relevant searches.
+          Ensure that the search terms are closely related to the initial input but vary in their phrasing and word choice to capture a wide range of relevant searches,
+          Try to keep each search term to four or less words.
         Example:
         Input: Chinese name seals
         Output:
@@ -48,6 +49,9 @@ def expand_search_terms(search_terms: str) -> List[str]:
     )
     assistant_message = response.choices[0].message.content
     search_terms_json = json.loads(assistant_message.replace("'", '"'))
+    logging.info("Expanded search terms:")
+    for key, value in search_terms_json.items():
+        logging.info(f"{key}: {value}")
     expanded_terms = list(search_terms_json.values())
     return expanded_terms
 
@@ -69,9 +73,16 @@ def start_chrome_and_login():
     time.sleep(random.randint(1, 3))
 
 
+def go_to_product_search():
+    he.click("Find Hot Product")
+
+
+def go_to_dashboard():
+    he.click("Dashboard")
+
+
 def search_for_product(search_term):
     logging.info("Searching for product: %s", search_term)
-    he.click("Find Hot Product")
     he.click(he.TextField())
     he.wait_until(he.Button("Search").exists)
     try:
@@ -97,7 +108,8 @@ def download_and_rename_csv(search_term):
     time.sleep(3)
     downloads_folder = os.path.expanduser("~/Downloads")
     csv_file = glob.glob(os.path.join(downloads_folder, "product_detail_*.csv"))[0]
-    new_path = os.path.join(downloads_folder, f"{search_term}_product_detail.csv")
+    fn_formatted = search_term.lower().replace(" ", "_")
+    new_path = os.path.join(downloads_folder, f"{fn_formatted}_product_detail.csv")
     if os.path.exists(csv_file):
         logging.info("Renaming file to: %s", new_path)
         os.rename(csv_file, new_path)
@@ -106,10 +118,18 @@ def download_and_rename_csv(search_term):
 
 
 def main(search_term):
+    logging.info("Expanding search terms for %s", search_term)
+    expanded_terms = expand_search_terms(search_term)
     start_chrome_and_login()
+    go_to_product_search()
     logging.info("Logged in successfully!")
-    search_for_product(search_term)
-    download_and_rename_csv(search_term)
+    for term in expanded_terms:
+        search_for_product(term)
+        download_and_rename_csv(term)
+        go_to_dashboard()
+        go_to_product_search()
+
+    logging.info("Finished searching for products")
 
 
 def usage():
