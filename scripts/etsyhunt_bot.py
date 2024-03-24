@@ -137,7 +137,10 @@ def main(search_term):
         search_for_product(term)
         if check_no_results():
             continue
-        download_and_rename_csv(term)
+        try:
+            download_and_rename_csv(term)
+        except tenacity.RetryError:
+            logging.error("Error downloading CSV.")
         go_to_dashboard()
         go_to_product_search()
 
