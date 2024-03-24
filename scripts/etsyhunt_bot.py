@@ -10,6 +10,7 @@ from typing import List
 import helium as he
 from dotenv import load_dotenv
 from openai import OpenAI
+import tenacity
 
 load_dotenv()
 
@@ -81,6 +82,7 @@ def go_to_dashboard():
     he.click("Dashboard")
 
 
+@tenacity.retry(wait=tenacity.wait_fixed(5), stop=tenacity.stop_after_attempt(2))
 def search_for_product(search_term):
     logging.info("Searching for product: %s", search_term)
     he.click(he.TextField())
@@ -93,6 +95,14 @@ def search_for_product(search_term):
         pass
 
 
+def check_no_results():
+    if he.Text("No Data").exists():
+        logging.warning("No results found!")
+        return True
+    return False
+
+
+@tenacity.retry(wait=tenacity.wait_fixed(5), stop=tenacity.stop_after_attempt(2))
 def download_and_rename_csv(search_term):
     if he.Text("Compose your reply").exists():
         he.click(he.Text("Compose your reply"))
@@ -125,6 +135,8 @@ def main(search_term):
     logging.info("Logged in successfully!")
     for term in expanded_terms:
         search_for_product(term)
+        if check_no_results():
+            continue
         download_and_rename_csv(term)
         go_to_dashboard()
         go_to_product_search()
