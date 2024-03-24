@@ -54,7 +54,6 @@ def download_and_rename_csv(search_term):
     he.wait_until(he.Text("Export to CSV").exists)
     time.sleep(random.randint(1, 3))
     he.click(he.Text("Export to CSV"))
-    # he.wait_until(he.Text("All Page").exists)
     he.click(he.Text("All Page"))
     time.sleep(3)
     downloads_folder = os.path.expanduser("~/Downloads")
