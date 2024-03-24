@@ -1,16 +1,55 @@
 import glob
+import json
 import logging
 import os
 import random
 import sys
 import time
+from typing import List
 
-from dotenv import load_dotenv
 import helium as he
+from dotenv import load_dotenv
+from openai import OpenAI
 
 load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
+
+
+def expand_search_terms(search_terms: str) -> List[str]:
+    """Use OpenAI API to expand search terms."""
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    prompt = """
+        Input: search_terms
+        Output:: Provide the search terms in a JSON format, with the keys being the numbers 1 to 10 and the values being the corresponding search terms.
+          Ensure that the search terms are closely related to the initial input but vary in their phrasing and word choice to capture a wide range of relevant searches.
+        Example:
+        Input: Chinese name seals
+        Output:
+        {
+        '1': 'Chinese name seals',
+        '2': 'Chinese chops',
+        '3': 'Hanko seals',
+        '4': 'Chinese seal carving',
+        '5': 'Chinese signature stamps',
+        '6': 'Asian name seals',
+        '7': 'Chinese calligraphy seals',
+        '8': 'Traditional Chinese seals',
+        '9': 'Chinese seal engraving',
+        '10': 'Chinese name stamps'
+        }
+    """
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": prompt},
+            {"role": "user", "content": f"Expand search terms for {search_terms}"},
+        ],
+    )
+    assistant_message = response.choices[0].message.content
+    search_terms_json = json.loads(assistant_message.replace("'", '"'))
+    expanded_terms = list(search_terms_json.values())
+    return expanded_terms
 
 
 def start_chrome_and_login():
