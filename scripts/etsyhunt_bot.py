@@ -119,7 +119,8 @@ def download_and_rename_csv(search_term):
     downloads_folder = os.path.expanduser("~/Downloads")
     csv_file = glob.glob(os.path.join(downloads_folder, "product_detail_*.csv"))[0]
     fn_formatted = search_term.lower().replace(" ", "_")
-    new_path = os.path.join(downloads_folder, f"{fn_formatted}_product_detail.csv")
+    # The file is actually an Excel file, so rename it to .xlsx
+    new_path = os.path.join(downloads_folder, f"{fn_formatted}_product_detail.xlsx")
     if os.path.exists(csv_file):
         logging.info("Renaming file to: %s", new_path)
         os.rename(csv_file, new_path)
