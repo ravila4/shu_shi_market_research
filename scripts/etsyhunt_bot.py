@@ -88,7 +88,7 @@ def search_for_product(search_term):
     he.click(he.TextField())
     he.wait_until(he.Button("Search").exists)
     try:
-        time.sleep(random.randint(2, 4))
+        time.sleep(random.randint(3, 6))
         he.write(search_term)
         he.press(he.click(he.Button("Search")))
     except TypeError:
@@ -112,7 +112,7 @@ def download_and_rename_csv(search_term):
 
     logging.info("Downloading CSV file for %s", search_term)
     he.wait_until(he.Text("Export to CSV").exists)
-    time.sleep(random.randint(1, 3))
+    time.sleep(random.randint(3, 5))
     he.click(he.Text("Export to CSV"))
     he.click(he.Text("All Page"))
     time.sleep(2)
@@ -149,6 +149,13 @@ def main(search_term):
             for idx, term in enumerate(expanded_terms, 1)
             if str(idx) not in drop_terms
         ]
+        # Ask whether the user wants to add new search terms
+        new_terms = input("Enter new search terms (comma separated): ")
+        new_terms = new_terms.split(",")
+        expanded_terms.extend(new_terms)
+    logging.info("Proceeding with the following search terms:")
+    for idx, term in enumerate(expanded_terms, 1):
+        logging.info(f"{idx}: {term}")
     start_chrome_and_login()
     go_to_product_search()
     logging.info("Logged in successfully!")
