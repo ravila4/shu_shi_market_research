@@ -82,13 +82,13 @@ def go_to_dashboard():
     he.click("Dashboard")
 
 
-@tenacity.retry(wait=tenacity.wait_fixed(5), stop=tenacity.stop_after_attempt(2))
+@tenacity.retry(wait=tenacity.wait_fixed(3), stop=tenacity.stop_after_attempt(2))
 def search_for_product(search_term):
     logging.info("Searching for product: %s", search_term)
     he.click(he.TextField())
     he.wait_until(he.Button("Search").exists)
     try:
-        time.sleep(random.randint(3, 5))
+        time.sleep(random.randint(2, 4))
         he.write(search_term)
         he.press(he.click(he.Button("Search")))
     except TypeError:
@@ -102,7 +102,7 @@ def check_no_results():
     return False
 
 
-@tenacity.retry(wait=tenacity.wait_fixed(5), stop=tenacity.stop_after_attempt(2))
+@tenacity.retry(wait=tenacity.wait_fixed(3), stop=tenacity.stop_after_attempt(2))
 def download_and_rename_csv(search_term):
     if he.Text("Compose your reply").exists():
         he.click(he.Text("Compose your reply"))
@@ -115,7 +115,7 @@ def download_and_rename_csv(search_term):
     time.sleep(random.randint(1, 3))
     he.click(he.Text("Export to CSV"))
     he.click(he.Text("All Page"))
-    time.sleep(3)
+    time.sleep(2)
     downloads_folder = os.path.expanduser("~/Downloads")
     csv_file = glob.glob(os.path.join(downloads_folder, "product_detail_*.csv"))[0]
     fn_formatted = search_term.lower().replace(" ", "_")
@@ -125,6 +125,10 @@ def download_and_rename_csv(search_term):
         os.rename(csv_file, new_path)
     else:
         logging.warning("No CSV file found!")
+
+
+def close_browser():
+    he.kill_browser()
 
 
 def main(search_term):
@@ -159,6 +163,7 @@ def main(search_term):
         go_to_dashboard()
         go_to_product_search()
 
+    close_browser()
     logging.info("Finished searching for products")
 
 
