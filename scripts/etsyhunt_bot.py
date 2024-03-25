@@ -63,7 +63,7 @@ def start_chrome_and_login():
     if not email or not pwd:
         logging.error("Please provide email and password in .env file!")
         sys.exit(1)
-    he.start_chrome("https://etsyhunt.com/user/login")
+    he.start_firefox("https://etsyhunt.com/user/login")
     he.click(he.TextField("Please enter your email"))
     he.write(email)
     he.click(he.TextField("Please enter your password"))
@@ -71,7 +71,7 @@ def start_chrome_and_login():
     he.click("Login")
     he.wait_until(he.Text("Dashboard").exists)
     # Random sleep to avoid detection
-    time.sleep(random.randint(1, 3))
+    time.sleep(random.randint(2, 5))
 
 
 def go_to_product_search():
