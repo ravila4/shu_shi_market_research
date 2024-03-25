@@ -22,8 +22,10 @@ def expand_search_terms(search_terms: str) -> List[str]:
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     prompt = """
         Input: search_terms
-        Output:: Provide the search terms in a JSON format, with the keys being the numbers 1 to 10 and the values being the corresponding search terms.
-          Ensure that the search terms are closely related to the initial input but vary in their phrasing and word choice to capture a wide range of relevant searches,
+        Output:: Provide the search terms in a JSON format, with the keys being the numbers 1 to 10
+          and the values being the corresponding search terms.
+          Ensure that the search terms are closely related to the initial input but vary in their phrasing
+          and word choice to capture a wide range of relevant searches.
           Try to keep each search term to four or less words.
         Example:
         Input: Chinese name seals
