@@ -130,6 +130,21 @@ def download_and_rename_csv(search_term):
 def main(search_term):
     logging.info("Expanding search terms for %s", search_term)
     expanded_terms = expand_search_terms(search_term)
+    # Ask for user input on whether to proceed
+    user_input = input(
+        "Do you want to proceed with the expanded search terms? ([Y]es/no): "
+    )
+    if user_input.lower() not in ["yes", "y"]:
+        # Ask which search terms to drop
+        drop_terms = input(
+            "Enter the numbers of the search terms to drop (comma separated): "
+        )
+        drop_terms = drop_terms.split(",")
+        expanded_terms = [
+            term
+            for idx, term in enumerate(expanded_terms, 1)
+            if str(idx) not in drop_terms
+        ]
     start_chrome_and_login()
     go_to_product_search()
     logging.info("Logged in successfully!")
