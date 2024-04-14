@@ -5,3 +5,5 @@ pandas
 matplotlib
 tenacity
 plotly
+beautifulsoup4
+tqdm
