@@ -381,8 +381,8 @@ elif slide == "Overview of Search Results":
         ## Top 10 products for each category
         """
     )
-    st.image("top_products_1.png")
-    st.image("top_products_2.png")
+    st.image(os.path.join(current_directory, "top_products_1.png"))
+    st.image(os.path.join(current_directory, "top_products_2.png"))
     st.header("Evaluating Product Pricing")
     st.plotly_chart(plot_median_price_by_product(all_product_data))
     st.markdown(
