@@ -9,3 +9,4 @@ plotly
 beautifulsoup4
 tqdm
 ipython
+pillow
