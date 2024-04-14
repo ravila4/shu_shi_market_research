@@ -377,6 +377,8 @@ elif slide == "Overview of Search Results":
     st.markdown(
         """
         - The search results with the most hits were for calligraphy prints and name seals. This may indicate more competition in these categories.
+
+        ## Top 10 products for each category
         """
     )
     st.image("https://private-user-images.githubusercontent.com/9020496/322275510-3b3fd70d-1297-45a9-9bf3-4b34e86d4701.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTMxMDA1NjgsIm5iZiI6MTcxMzEwMDI2OCwicGF0aCI6Ii85MDIwNDk2LzMyMjI3NTUxMC0zYjNmZDcwZC0xMjk3LTQ1YTktOWJmMy00YjM0ZTg2ZDQ3MDEucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI0MDQxNCUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDA0MTRUMTMxMTA4WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9MThlNzI1OTUwNzgzYTc0OTk2NWFhZDY3NDcxNWRhMjVmNGM1NmZkOGJlMmVmYTQ5OWRlMmE4NzAyYjc5YThkMCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmYWN0b3JfaWQ9MCZrZXlfaWQ9MCZyZXBvX2lkPTAifQ.dYvBjw_oENju1WESqHqPkBngruV8F5tX_8N93-T6u10")
