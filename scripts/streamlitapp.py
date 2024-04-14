@@ -14,7 +14,6 @@ import pandas as pd
 import plotly.graph_objects as go
 import requests
 import seaborn
-from bs4 import BeautifulSoup
 from IPython.display import HTML, Image, display
 from PIL import Image
 from plotly.io import to_image
