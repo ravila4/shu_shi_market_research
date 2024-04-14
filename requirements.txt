@@ -1,3 +1,4 @@
+
 helium
 python-dotenv
 seaborn
@@ -7,3 +8,4 @@ tenacity
 plotly
 beautifulsoup4
 tqdm
+ipython
